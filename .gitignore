@@ -13,3 +13,4 @@ dump.dat
 # Operating system files
 .DS_Store
 Thumbs.db
+*.iml
