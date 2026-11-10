@@ -17,8 +17,6 @@ public class Main {
     public static void main(String[] args) {
 
         InMemoryDatabase database = new InMemoryDatabase();
-
-        // Load previously saved data when server starts
         try {
             DatabasePersistence.load(database);
         } catch (Exception e) {
@@ -27,8 +25,6 @@ public class Main {
             );
             return;
         }
-
-        // Save database when server shuts down
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 
             System.out.println("\nShutting down MiniRedis...");
@@ -49,17 +45,16 @@ public class Main {
 
             while (true) {
 
-                // Accept a new client
                 Socket clientSocket = serverSocket.accept();
 
                 System.out.println("New client connected!");
 
-                // Create a separate thread for this client
+
                 Thread clientThread = new Thread(() -> {
                     handleClient(clientSocket, database);
                 });
 
-                // Start the thread
+
                 clientThread.start();
             }
 
@@ -68,7 +63,7 @@ public class Main {
         }
     }
 
-    // This method handles one client
+
     private static void handleClient(
             Socket clientSocket,
             InMemoryDatabase database) {
@@ -82,7 +77,7 @@ public class Main {
 
                 List<String> parts = RespParser.readCommand(input);
 
-                // Client disconnected
+
                 if (parts == null) {
                     break;
                 }

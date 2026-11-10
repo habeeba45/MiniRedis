@@ -11,7 +11,7 @@ public class DatabasePersistence {
 
     private static final String FILE_NAME = "dump.dat";
 
-    // Save database to disk
+
     public static void save(InMemoryDatabase database)
             throws IOException {
 
@@ -27,7 +27,7 @@ public class DatabasePersistence {
         System.out.println("Database saved successfully!");
     }
 
-    // Load database from disk
+
     public static void load(InMemoryDatabase database)
             throws IOException, ClassNotFoundException {
 

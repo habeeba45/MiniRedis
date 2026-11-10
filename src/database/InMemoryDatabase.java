@@ -5,20 +5,20 @@ import java.util.*;
 
 public class InMemoryDatabase {
 
-    // String storage
+
     private final Map<String, String> storage = new HashMap<>();
 
-    // List storage
+
     private final Map<String, LinkedList<String>> lists =
             new HashMap<>();
 
-    // Set storage
+
     private final Map<String, LinkedHashSet<String>> sets =
             new HashMap<>();
-    // Stores expiration timestamps
+
     private final Map<String, Long> expiry = new HashMap<>();
 
-    // Check whether a key belongs to another data type
+
     private void checkWrongType(String key, String allowedType) {
         removeIfExpired(key);
         if (!allowedType.equals("STRING")
@@ -44,7 +44,7 @@ public class InMemoryDatabase {
         checkWrongType(key, "STRING");
         storage.put(key, value);
 
-        // A normal SET removes any previous expiration
+
         expiry.remove(key);
     }
 
@@ -53,7 +53,7 @@ public class InMemoryDatabase {
         checkWrongType(key, "STRING");
         return storage.get(key);
     }
-    // Remove a key if its expiration time has passed
+
     private void removeIfExpired(String key) {
 
         Long expirationTime = expiry.get(key);
@@ -254,7 +254,6 @@ public class InMemoryDatabase {
 
     }
 
-    // Create a snapshot of all database data
     public synchronized DatabaseSnapshot createSnapshot() {
 
 
@@ -266,8 +265,6 @@ public class InMemoryDatabase {
         );
     }
 
-    // Restore data from a saved snapshot
-// Restore data from a saved snapshot
     public synchronized void restoreSnapshot(
             DatabaseSnapshot snapshot) {
 
@@ -280,7 +277,7 @@ public class InMemoryDatabase {
         lists.putAll(snapshot.lists);
         sets.putAll(snapshot.sets);
 
-        // Restore expiration timestamps
+
         if (snapshot.expiry != null) {
             expiry.putAll(snapshot.expiry);
         }
@@ -318,7 +315,7 @@ public class InMemoryDatabase {
         return copy;
     }
 
-    // Set expiration time in seconds
+
     public synchronized int expire(String key, int seconds) {
 
         removeIfExpired(key);
@@ -343,7 +340,7 @@ public class InMemoryDatabase {
         return 1;
     }
 
-    // Get remaining time in seconds
+
     public synchronized long ttl(String key) {
 
         removeIfExpired(key);
@@ -365,7 +362,7 @@ public class InMemoryDatabase {
                 (expirationTime - System.currentTimeMillis()) / 1000
         );
     }
-    // Remove expiration from a key
+
     public synchronized int persist(String key) {
 
         removeIfExpired(key);
@@ -377,7 +374,7 @@ public class InMemoryDatabase {
         return expiry.remove(key) != null ? 1 : 0;
     }
 
-    // Set a string with expiration
+
     public synchronized int setex(
             String key, int seconds, String value) {
 

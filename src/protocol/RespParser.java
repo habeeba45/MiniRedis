@@ -14,19 +14,19 @@ public class RespParser {
     public static List<String> readCommand(InputStream input)
             throws IOException {
 
-        // Read the first RESP character
+
         int marker = input.read();
 
         if (marker == -1) {
             return null;
         }
 
-        // Commands must arrive as RESP arrays
+
         if (marker != '*') {
             throw new IOException("Expected RESP array");
         }
 
-        // Read number of elements
+
         int count = Integer.parseInt(readLine(input));
 
         if (count < 1 || count > 1024) {
@@ -37,7 +37,7 @@ public class RespParser {
 
         for (int i = 0; i < count; i++) {
 
-            // Each command element must be a bulk string
+
             if (input.read() != '$') {
                 throw new IOException("Expected bulk string");
             }
@@ -48,14 +48,14 @@ public class RespParser {
                 throw new IOException("Invalid bulk string length");
             }
 
-            // Read the actual data
+
             byte[] data = input.readNBytes(length);
 
             if (data.length != length) {
                 throw new EOFException("Incomplete bulk string");
             }
 
-            // Consume the ending CRLF
+
             if (input.read() != '\r' || input.read() != '\n') {
                 throw new IOException("Invalid bulk string ending");
             }
@@ -68,7 +68,7 @@ public class RespParser {
         return command;
     }
 
-    // Reads a line ending with CRLF
+
     private static String readLine(InputStream input)
             throws IOException {
 

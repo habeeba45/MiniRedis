@@ -13,7 +13,7 @@ public class RedisClient {
 
         Scanner scanner = new Scanner(System.in);
 
-        // Connect only once
+
         try (Socket socket = new Socket("localhost", 6379)) {
 
             System.out.println("Connected to MiniRedis!");
@@ -63,7 +63,7 @@ public class RedisClient {
             return parts;
         }
 
-        // ECHO keeps the entire message as one argument
+
         if (trimmed.toUpperCase().startsWith("ECHO ")) {
 
             int index = trimmed.indexOf(' ');
@@ -74,7 +74,7 @@ public class RedisClient {
             return parts;
         }
 
-        // SET keeps the entire value as one argument
+
         if (trimmed.toUpperCase().startsWith("SET ")) {
 
             String[] tokens = trimmed.split("\\s+", 3);
@@ -86,7 +86,7 @@ public class RedisClient {
             return parts;
         }
 
-        // Other commands are split into individual arguments
+
         String[] tokens = trimmed.split("\\s+");
 
         for (String token : tokens) {
@@ -127,22 +127,22 @@ public class RedisClient {
             throw new EOFException("Server disconnected");
         }
 
-        // Simple string
+
         if (marker == '+') {
             return readLine(input);
         }
 
-        // Error
+
         if (marker == '-') {
             return "(error) " + readLine(input);
         }
 
-        // Integer
+
         if (marker == ':') {
             return readLine(input);
         }
 
-        // Bulk string
+
         if (marker == '$') {
 
             int length = Integer.parseInt(readLine(input));
@@ -164,7 +164,7 @@ public class RedisClient {
             return new String(data, StandardCharsets.UTF_8);
         }
 
-        // Array
+
         if (marker == '*') {
 
             int count = Integer.parseInt(readLine(input));
