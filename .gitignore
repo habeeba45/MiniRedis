@@ -1,0 +1,15 @@
+
+# Compiled Java files
+out/
+*.class
+
+# Database files generated at runtime
+dump.dat
+
+# IDE files
+.idea/
+.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db
